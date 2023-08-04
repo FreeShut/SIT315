@@ -1,0 +1,36 @@
+const uint8_t BTN_PIN = 2;
+const uint8_t LED_PIN = 13;
+
+volatile uint8_t buttonState = LOW;
+volatile uint8_t ledState = LOW;
+
+void setup()
+{
+  pinMode(BTN_PIN, INPUT_PULLUP);
+  pinMode(LED_PIN, OUTPUT);
+  Serial.begin(1000);
+
+  
+  attachInterrupt(digitalPinToInterrupt(BTN_PIN), buttonInterrupt, CHANGE);
+}
+
+void loop()
+{
+}
+
+void buttonInterrupt()
+{
+  buttonState = digitalRead(BTN_PIN);
+  
+  
+  Serial.print(buttonState);
+  Serial.print(ledState);
+  Serial.println("");
+
+  
+  if (buttonState != ledState)
+  {
+    ledState = buttonState;
+    digitalWrite(LED_PIN, ledState);
+  }
+}

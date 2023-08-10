@@ -1,0 +1,44 @@
+const uint8_t BTN_PIN = 2;  // Digital pin for the button
+const uint8_t LED_PIN = 13; // Built-in LED pin
+
+const uint8_t SOUND_PIN = 7; // Digital pin for sound sensor
+
+volatile uint8_t buttonState = LOW;
+volatile uint8_t ledState = LOW;
+
+void setup()
+{
+  pinMode(BTN_PIN, INPUT_PULLUP);
+  pinMode(LED_PIN, OUTPUT);
+  pinMode(SOUND_PIN, OUTPUT); 
+  Serial.begin(9600);
+
+  attachInterrupt(digitalPinToInterrupt(BTN_PIN), buttonInterrupt, CHANGE);
+}
+
+void loop()
+{
+  if (buttonState == HIGH) {
+    digitalWrite(LED_PIN, HIGH); 
+    
+    delay(5000); 
+    
+    digitalWrite(SOUND_PIN, HIGH); 
+    
+    delay(5000);
+    Serial.println("Light turned on");
+    
+    while (buttonState == HIGH) {
+      
+    }
+    
+    digitalWrite(SOUND_PIN, LOW); 
+    digitalWrite(LED_PIN, LOW); 
+    Serial.println("Light turned off");
+  }
+}
+
+void buttonInterrupt()
+{
+  buttonState = digitalRead(BTN_PIN);
+}
